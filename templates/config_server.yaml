@@ -1,0 +1,4 @@
+token: rke2cluster01
+tls-san:
+  - 192.168.0.192
+cni: canal

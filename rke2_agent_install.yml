@@ -1,0 +1,60 @@
+---
+- name: RKE2 agent install / config / start
+  hosts: rke2-agent
+  become: true
+  become_user: root
+
+  tasks:
+
+  - name: Download installer
+    shell: curl -sfL https://get.rke2.io --output /tmp/install.sh
+
+  - name: Check install.sh exist
+    shell: ls -la /tmp | grep -i install
+    register: result01
+  
+  - debug: var=result01.stdout_lines
+
+  - name: Add execute for install.sh
+    shell: chmod +x /tmp/install.sh
+
+  - name: Install RKE2 agent
+    shell: INSTALL_RKE2_TYPE=agent INSTALL_RKE2_CHANNEL=latest /tmp/install.sh
+
+  - name: Remove install.sh
+    file:
+      path: "/tmp/install.sh"
+      state: absent
+
+  - name: Create rke2 directory
+    shell: mkdir -p /etc/rancher/rke2
+
+  - name: Copy config.yaml
+    ansible.builtin.copy:
+      src: templates/config_agent.yaml
+      dest: /etc/rancher/rke2/config.yaml
+
+  - name: Add execute for config.yaml
+    shell: chmod +x /etc/rancher/rke2/config.yaml
+
+  - name: Check config.yaml exist
+    shell: ls -la /etc/rancher/rke2/
+    register: result02
+  
+  - debug: var=result02.stdout_lines
+
+  - name: Start service rke2-agent on agent node
+    ansible.builtin.systemd_service:
+      name: rke2-agent.service
+      state: started
+      enabled: true
+
+  - name: Reboot machine and send a message
+    ansible.builtin.reboot:
+      msg: "Rebooting machine in 5 seconds"
+
+  - name: Check rke2 agent is running
+    shell: ps -ef | grep -i rke2
+    register: result03
+  
+  - debug: var=result03.stdout_lines

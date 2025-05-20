@@ -1,0 +1,4 @@
+useradd {{ username }}
+mkdir -p /home/{{ username }}/.kube
+cp /etc/rancher/rke2/rke2.yaml /home/{{ username }}/.kube/config
+chown -R {{ username }}:users /home/{{ username }}
