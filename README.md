@@ -1,6 +1,6 @@
 Two simple separated playbooks to build RKE2 server node and second for agent.
 inventory.ini must be adopted with server and agent IPs.
-Before build stop and disbale firewalld for both nodes. 
+Before build stop and disable firewalld for both nodes. 
 config_server.yaml and config_agent.yaml must be adopted with server IP address - this is working for me.
 this is executed by 'ansible-playbook -i inventory.ini rke2_server_install.yml --ask-pass -K' and 'ansible-playbook -i inventory.ini rke2_agent_install.yml --ask-pass -K'.
 rke2_server_install.yml will create user to be used by kubectl and configure.
