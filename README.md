@@ -1,0 +1,6 @@
+Two simple separated playbooks to build RKE2 server node and second for agent
+config_server.yaml and config_agent.yaml must be adopted with server IP address - this is working for me
+Issue I had - I have cloned agent node from server node in vmware and this is not working then - please use fresh installations of nodes
+tested with ansible [core 2.16.5]
+rke2_server_install.yml will create user to be used by kubectl and configure
+Tested on Fedora42 and OpenSUSE Leap 15.6 so far
