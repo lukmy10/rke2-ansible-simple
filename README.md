@@ -1,7 +1,8 @@
 Two simple separated playbooks to build RKE2 server node and second for agent.
 inventory.ini must be adopted with server and agent IPs.
 config_server.yaml and config_agent.yaml must be adopted with server IP address - this is working for me.
-this is executed by ansible-playbook -i inventory.ini rke2_agent_install.yml --ask-pass -K and ansible-playbook -i inventory.ini rke2_server_install.yml --ask-pass -K .
+this is executed by 'ansible-playbook -i inventory.ini rke2_server_install.yml --ask-pass -K' and 'ansible-playbook -i inventory.ini rke2_agent_install.yml --ask-pass -K' .
+Build server first - test with 'kubectl get nodes' with user you have created during server build , then build agent node - test with 'kubectl get nodes' on server node .
 Issue I had - I have cloned agent node from server node in vmware and this is not working then - please use fresh installations of nodes.
 tested with ansible [core 2.16.5]
 rke2_server_install.yml will create user to be used by kubectl and configure.
